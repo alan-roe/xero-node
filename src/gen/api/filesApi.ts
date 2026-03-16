@@ -22,6 +22,7 @@ import { Folder } from '../model/files/folder';
 import { ObjectSerializer, Authentication, VoidAuth } from '../model/files/models';
 import { ApiError } from '../../model/ApiError';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+axios.defaults.adapter = 'fetch';
 import { Readable } from "stream";
 import { OAuth } from '../model/files/models';
 

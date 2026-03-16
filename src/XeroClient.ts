@@ -1,6 +1,7 @@
 import { Client, Issuer, TokenSet, TokenSetParameters, custom } from 'openid-client';
 import * as xero from './gen/api';
 const axios = require('axios');
+axios.defaults.adapter = 'fetch';
 import http = require('http');
 
 export { TokenSet, TokenSetParameters } from 'openid-client';
@@ -208,7 +209,7 @@ export class XeroClient {
           method: 'POST',
           url: 'https://identity.xero.com/connect/token',
           headers: {
-            "Authorization": `Basic ${Buffer.from(clientId + ":" + clientSecret).toString('base64')}`,
+            "Authorization": `Basic ${btoa(clientId + ":" + clientSecret)}`,
             "Content-Type": "application/x-www-form-urlencoded"
           },
           data: this.encodeBody(body)

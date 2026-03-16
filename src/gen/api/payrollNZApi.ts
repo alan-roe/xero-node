@@ -83,6 +83,7 @@ import { TrackingCategories } from '../model/payroll-nz/trackingCategories';
 import { ObjectSerializer, Authentication, VoidAuth } from '../model/payroll-nz/models';
 import { ApiError } from '../../model/ApiError';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+axios.defaults.adapter = 'fetch';
 import { Readable } from "stream";
 import { OAuth } from '../model/payroll-nz/models';
 

@@ -39,6 +39,7 @@ import { Timesheets } from '../model/payroll-au/timesheets';
 import { ObjectSerializer, Authentication, VoidAuth } from '../model/payroll-au/models';
 import { ApiError } from '../../model/ApiError';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+axios.defaults.adapter = 'fetch';
 import { Readable } from "stream";
 import { OAuth } from '../model/payroll-au/models';
 
