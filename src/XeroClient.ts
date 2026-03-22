@@ -2,6 +2,14 @@ import { Client, Issuer, TokenSet, TokenSetParameters, custom } from 'openid-cli
 import * as xero from './gen/api';
 const axios = require('axios');
 axios.defaults.adapter = 'fetch';
+// Fetch API throws TypeError for GET/HEAD with body. The generated API methods
+// pass `data: {}` on all requests including GET — strip it to avoid "Network Error".
+axios.interceptors.request.use((config) => {
+  if (config.method && ['get', 'head'].includes(config.method.toLowerCase())) {
+    delete config.data;
+  }
+  return config;
+});
 import http = require('http');
 
 export { TokenSet, TokenSetParameters } from 'openid-client';

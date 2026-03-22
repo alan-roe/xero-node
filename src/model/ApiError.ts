@@ -30,21 +30,25 @@ export class ApiError {
 	headers: any
 	request: Request
 
-	constructor(axiosError) {
+	constructor(error: any) {
+		// Axios HTTP adapter shape: error.response.status, error.response.data, etc.
+		// Fetch adapter / generic errors: may lack .response entirely (XeroAPI/xero-node#765)
+		const response = error?.response;
+		const request = error?.request;
 
-        this.statusCode = axiosError.response.status;
-		this.body = axiosError.response.data;
-		this.headers = axiosError.response.headers;
+		this.statusCode = response?.status ?? response?.statusCode ?? 0;
+		this.body = response?.data ?? response?.body ?? error?.message ?? error;
+		this.headers = response?.headers ?? {};
 		this.request = {
 			url: {
-				protocol: axiosError.request.protocol,
-				port: axiosError.request.agent?.defaultPort || axiosError.request.socket?.localPort,
-				host: axiosError.request.host,
-				path: axiosError.request.path,
+				protocol: request?.protocol ?? '',
+				port: request?.agent?.defaultPort ?? request?.socket?.localPort ?? 0,
+				host: request?.host ?? '',
+				path: request?.path ?? '',
 			},
-			headers: axiosError.request.getHeaders(),
-			method: axiosError.request.method
-		}
+			headers: typeof request?.getHeaders === 'function' ? request.getHeaders() : (request?.headers ?? {}),
+			method: request?.method ?? '',
+		};
 	}
 
 	generateError(): ErrorResponse {
